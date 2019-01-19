@@ -1,0 +1,10 @@
+{
+    "code-runner.executorMap": {
+        "cpp": "g++ main.cpp -o main.o && ./main.o < in.txt"
+    },
+    "files.associations": {
+        "stack": "cpp",
+        "ostream": "cpp",
+        "istream": "cpp"
+    },
+}
