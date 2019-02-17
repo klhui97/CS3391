@@ -7,6 +7,7 @@
 #include <ctype.h>
 #include <algorithm>
 #include <iomanip>
+#define N 21
 
 using namespace std;
 
@@ -15,7 +16,7 @@ void mainFunction() {
     int t = 1;
     int n;
     while(cin >> n && cin) {
-        int graph[21][21] = {};
+        int graph[N][N] = {};
         for(i = 1; i < 20; i++) {
             if(i != 1)
                 cin >> n;
@@ -25,10 +26,13 @@ void mainFunction() {
                 graph[next][i] = 1;
             }
         }
-        for(int k = 1; k < 21; k++) {
-            for(i = 1; i < 21; i++) {
-                for(j = 1; j < 21; j++) {
-                    if(graph[i][j] == 0 || graph[i][j] > graph[i][k]+graph[k][j]) {
+        // k is the intermedia point
+        // if i -> k + k -> j is smaller than i -> j
+        // i -> k + k -> j becomes the shorest path
+        for(int k = 1; k < N; k++) {
+            for(i = 1; i < N; i++) {
+                for(j = 1; j < N; j++) {
+                    if(graph[i][j] == 0 || graph[i][j] > graph[i][k] + graph[k][j]) {
                         if(graph[i][k] && graph[k][j])
                             graph[i][j] = graph[i][k] + graph[k][j];
                     }
