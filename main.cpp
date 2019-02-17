@@ -1,45 +1,28 @@
-#include <iostream>
-#include <string>
-#include <stack>
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <algorithm>
-#include <iomanip>
+/*** System Library ***/
+#include<iostream>
+#include<cstdio>
+#include<cmath>
+#include<cstdlib> // random
+#include<ctime>
+#include<climits> // all useful constants
+#include<functional> // for hash
+#include<algorithm>
+#include<sstream>
 
+/*** Data Structure ***/
+#include<string>
+#include<queue>
+#include<stack>
+#include<vector>
+#include<deque> // double ended queue
+#include<list> // priority queue
 using namespace std;
-int scroe[1000];
 
 void mainFunction() {
-    int N;
-    cin >> N;
-
-    while(N--){
-        int students;
-        cin >> students;
-        int i = 0;
-        int total = 0;
-        while(i < students){
-            cin >> scroe[i];
-            total += scroe[i];
-            i++;
-        }
-        int pass = 0;
-        double avg = total / students;
-
-        i = 0;
-        while(i < students){
-            if (scroe[i] > avg) {
-                pass++;
-            }
-            i++;
-        }
-        cout << fixed << setprecision(3) << pass * 1.0 / students * 1.0 * 100 << "%" << endl;
-    }
-    
 }
 
 int main() {
+    // freopen("in.txt", "r", stdin);
     mainFunction();
     return 0;
 }
