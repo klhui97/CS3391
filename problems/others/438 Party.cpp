@@ -19,12 +19,24 @@
 using namespace std;
 
 void mainFunction() {
+    int t, n;
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cin >> t;
+
+    while(t--) {
+        cin >> n;
+        if (n <= 2) {
+            cout << 0 << endl;
+        }else {
+            cout << n - 2 << endl;
+        }
+    }
+    
 }
 
 int main() {
     // freopen("in.txt", "r", stdin);
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
     mainFunction();
     return 0;
 }
