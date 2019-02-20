@@ -17,8 +17,19 @@
 #include<deque> // double ended queue
 #include<list> // priority queue
 using namespace std;
-
+#define N 25
 void mainFunction() {
+    
+    int result[N];
+    int c1, c2, c3, c4, t;
+    while (cin >> c1 >> c2 >> c3 >> c4 >> t) {
+        if (t < c1 && t < c2 && t < c3 && t < c4) {
+            cout << -1 << endl;
+            continue;
+        }
+        
+    }
+    
 }
 
 int main() {
