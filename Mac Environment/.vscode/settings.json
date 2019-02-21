@@ -9,6 +9,11 @@
         "string": "cpp",
         "iostream": "cpp",
         "iterator": "cpp",
-        "iomanip": "cpp"
+        "iomanip": "cpp",
+        "__tuple": "cpp",
+        "algorithm": "cpp",
+        "queue": "cpp",
+        "sstream": "cpp",
+        "ctime": "cpp"
     },
 }

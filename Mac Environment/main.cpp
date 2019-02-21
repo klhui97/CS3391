@@ -17,25 +17,27 @@
 #include<deque> // double ended queue
 #include<list> // priority queue
 using namespace std;
-#define N 25
+
 void mainFunction() {
     
-    int result[N];
-    int c1, c2, c3, c4, t;
-    while (cin >> c1 >> c2 >> c3 >> c4 >> t) {
-        if (t < c1 && t < c2 && t < c3 && t < c4) {
-            cout << -1 << endl;
-            continue;
-        }
-        
+}
+
+void testCaseGenerator() {
+    int d[24];
+    for (int i = 1; i < 25; i++) {
+        d[i - 1] = i;
     }
-    
+    for (int i = 0; i < 100; i++) {
+        random_shuffle(begin(d), end(d));
+        cout << d[0] << " " << d[1] << " " << d[2] << " " << d[3] << " " << int(rand() % 24 + 1) << endl;
+    }
 }
 
 int main() {
     // freopen("in.txt", "r", stdin);
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
+    // testCaseGenerator();
     mainFunction();
     return 0;
 }
