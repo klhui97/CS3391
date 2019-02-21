@@ -1,0 +1,16 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build main",
+            "type": "shell",
+            "command": "g++",
+            "args": [
+                "-g",
+                "Mac Environment/main.cpp",
+                "-o",
+                "Mac Environment/main.o"
+            ]
+        }
+    ]
+}

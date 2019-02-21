@@ -1,0 +1,19 @@
+{
+    "code-runner.executorMap": {
+        "cpp": "g++ Mac Environment/main.cpp -o Mac Environment/main.o && Mac Environment/main.o < in.txt"
+    },
+    "files.associations": {
+        "stack": "cpp",
+        "ostream": "cpp",
+        "istream": "cpp",
+        "string": "cpp",
+        "iostream": "cpp",
+        "iterator": "cpp",
+        "iomanip": "cpp",
+        "__tuple": "cpp",
+        "algorithm": "cpp",
+        "queue": "cpp",
+        "sstream": "cpp",
+        "ctime": "cpp"
+    },
+}
