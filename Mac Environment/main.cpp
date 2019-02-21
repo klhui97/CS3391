@@ -28,7 +28,7 @@ void testCaseGenerator() {
         d[i - 1] = i;
     }
     for (int i = 0; i < 100; i++) {
-        random_shuffle(begin(d), end(d));
+        // random_shuffle(begin(d), end(d));
         cout << d[0] << " " << d[1] << " " << d[2] << " " << d[3] << " " << int(rand() % 24 + 1) << endl;
     }
 }
