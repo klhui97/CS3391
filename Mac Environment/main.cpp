@@ -12,6 +12,7 @@
 #include <regex>
 #include <string.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 /*** Data Structure ***/
 #include <string>
@@ -22,10 +23,11 @@
 #include <list>  // priority queue
 #include <map>
 using namespace std;
+#define N 7490
 
 void mainFunction()
 {
-
+	
 }
 
 void testCaseGenerator()
@@ -44,7 +46,9 @@ void testCaseGenerator()
 
 int main()
 {
-	// freopen("in.txt", "r", stdin);
+	if (getenv("vscode") != NULL) {
+		freopen("in.txt", "r", stdin);
+	}
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
 	// testCaseGenerator();

@@ -13,7 +13,12 @@
             "cwd": "${workspaceFolder}/Mac Environment",
             "MIMode": "lldb",
             "externalConsole": true,
-            "environment": [],
+            "environment": [
+                {
+                    "name": "vscode",
+                    "value": "true"
+                }
+            ],
             "preLaunchTask": "build main"
         }
     ],
