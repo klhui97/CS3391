@@ -15,6 +15,7 @@
         "queue": "cpp",
         "sstream": "cpp",
         "ctime": "cpp",
-        "utility": "cpp"
+        "utility": "cpp",
+        "iosfwd": "cpp"
     },
 }
