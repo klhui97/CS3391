@@ -23,11 +23,23 @@
 #include <list>  // priority queue
 #include <map>
 using namespace std;
-#define maxn 1001
+#define N 7490
 
 void mainFunction()
 {
-	
+	int c[5] = {1, 5, 10, 25, 50};
+	int dp[N];
+	memset(dp, 0, sizeof dp);
+	dp[0] = 1;
+	for (int i = 0; i < 5; ++i)
+	{
+		for (int j = c[i]; j < N; ++j)
+			dp[j] += dp[j - c[i]];
+	}
+	int n;
+	while(cin >> n){
+	    cout << dp[n] << endl;
+	}
 }
 
 void testCaseGenerator()
@@ -46,8 +58,7 @@ void testCaseGenerator()
 
 int main()
 {
-	if (getenv("vscode") != NULL)
-	{
+	if (getenv("vscode") != NULL) {
 		freopen("in.txt", "r", stdin);
 	}
 	ios_base::sync_with_stdio(false);

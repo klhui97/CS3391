@@ -24,10 +24,42 @@
 #include <map>
 using namespace std;
 #define maxn 1001
+#define maxw 31
 
 void mainFunction()
 {
-	
+	int t, object_num, person_num, sum, tmp;
+	int i, j;
+	int p[maxn], w[maxn];
+	int dp[maxw];
+
+	cin >> t;
+	while (t--)
+	{
+		cin >> object_num;
+		for (i = 0; i < object_num; i++)
+		{
+			cin >> p[i] >> w[i];
+		}
+		
+		// dp
+		memset(dp, 0, sizeof dp);
+		for (int i = 0; i < object_num; i++)
+		{
+			for (int j = 30; j >= w[i]; j--)
+				dp[j] = max(dp[j], dp[j - w[i]] + p[i]);
+		}
+
+		// Read person
+		sum = 0;
+		cin >> person_num;
+		while (person_num--)
+		{
+			cin >> tmp;
+			sum += dp[tmp];
+		}
+		cout << sum << endl;
+	}
 }
 
 void testCaseGenerator()
