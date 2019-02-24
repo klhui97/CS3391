@@ -8,6 +8,7 @@
 #include<functional> // for hash
 #include<algorithm>
 #include<sstream>
+#include<iomanip>
 
 /*** Data Structure ***/
 #include<string>
