@@ -24,6 +24,7 @@
 #include <map>
 using namespace std;
 #define maxn 1001
+#define maxw 5
 
 void mainFunction()
 {
