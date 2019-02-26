@@ -26,6 +26,7 @@
 using namespace std;
 #define maxn 1001
 #define maxw 5
+#define INF 0x3f3f3f3f
 
 void mainFunction()
 {
@@ -52,8 +53,8 @@ int main()
 	{
 		freopen("in.txt", "r", stdin);
 	}
-	ios_base::sync_with_stdio(false);
-	cin.tie(NULL);
+	// ios_base::sync_with_stdio(false);
+	// cin.tie(NULL);
 	// testCaseGenerator();
 	mainFunction();
 	return 0;

@@ -17,6 +17,9 @@
         "ctime": "cpp",
         "utility": "cpp",
         "iosfwd": "cpp",
-        "ios": "cpp"
+        "ios": "cpp",
+        "climits": "cpp",
+        "functional": "cpp",
+        "vector": "cpp"
     },
 }
