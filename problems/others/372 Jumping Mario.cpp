@@ -24,16 +24,32 @@
 #include <list>  // priority queue
 #include <map>
 using namespace std;
-#define DUBUG true
-#define $(x) {if (DUBUG) cout << #x << " = " << x << " " << endl;}
-#define _(x) {if (DUBUG) cout << #x << " = " << x << " ";}
+#define $(x) {cout << #x << " = " << x << " " << endl;}
 
-#define maxn 10
+#define maxn 2000 + 1
 #define maxw 5
 #define INF 0x3f3f3f3f
 
 void mainFunction()
 {
+	int t, w, prev;
+	int now;
+	int high, low;
+	cin >> t;
+	for (int i = 1; i <= t; i++) {
+		high = 0;
+		low = 0;
+		cin >> w >> prev;
+		while(--w){
+			cin >> now;
+			if (now < prev)
+				low++;
+			else if (now > prev)
+				high++;
+			prev = now;
+		}
+		printf("Case %d: %d %d\n", i, high, low);
+	}
 	
 }
 

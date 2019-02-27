@@ -20,6 +20,8 @@
         "ios": "cpp",
         "climits": "cpp",
         "functional": "cpp",
-        "vector": "cpp"
+        "vector": "cpp",
+        "list": "cpp",
+        "cstdlib": "cpp"
     },
 }
