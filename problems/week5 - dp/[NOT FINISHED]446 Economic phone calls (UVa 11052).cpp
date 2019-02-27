@@ -24,15 +24,50 @@
 #include <list>  // priority queue
 #include <map>
 using namespace std;
-#define $(x) {cout << #x << " = " << x << " " << endl;}
-
-#define maxn 10
+#define maxn 1001
 #define maxw 5
-#define INF 0x3f3f3f3f
 
 void mainFunction()
 {
-	
+	int n;
+	int i, j;
+	int times[maxn];
+	int cur_year;
+	int year[maxn];
+	char sign[maxn];
+	char dp[maxn];
+	while(scanf("%d\n", &n) && n != 0){
+		int mm, dd, HH, MM;
+        for (int i = 0; i < n; i++) {
+            scanf("%d:%d:%d:%d %*s %s", &mm, &dd, &HH, &MM, &sign[i]);
+            times[i] = ((mm * 31 + dd) * 24 + HH) * 60 + MM;
+			// cout << times[i] << " " << remain[i] << endl;
+        }
+		memset(dp, 0, sizeof 0);
+		year[0] = 0;
+		for (i = 1; i < n; i++) {
+			if (times[i] > times[i - 1]) {
+				year[i] = year[i - 1];
+			}else {
+				year[i] = year[i - 1] + 1;
+			}
+		}
+
+		for (i = 0; i < n; i++) {
+			cur_year = year[i];
+			for (j = i + 1; j < n && year[j] == cur_year; j++) {
+
+			}
+			
+		}
+		
+		int count = 0;
+		for (i = 0; i < n; i++) {
+			if (!deleted[i])
+				count++;
+		}
+		cout << count << endl;
+	}
 }
 
 void testCaseGenerator()
@@ -56,7 +91,7 @@ int main()
 		freopen("in.txt", "r", stdin);
 	}
 	ios_base::sync_with_stdio(false);
-	// cin.tie(NULL);
+	cin.tie(NULL);
 	// testCaseGenerator();
 	mainFunction();
 	return 0;
