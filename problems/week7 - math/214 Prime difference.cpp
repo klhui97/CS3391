@@ -35,54 +35,29 @@ using namespace std;
 int prime[maxn];
 int table[maxw];
 
-void SieveOfEratosthenes(int limit)
+void SieveOfEratosthenes(int n)
 {
-    bool sieve[limit]; 
-    memset(sieve, false, sizeof(sieve));
-	if (limit > 2)
-		sieve[2] = true;
-	if (limit > 3)
-		sieve[3] = true;
+    bool isprime[n+1];
+	memset(isprime, true, sizeof(isprime));
 
-    for (int x = 1; x * x <= limit; x++) { 
-        for (int y = 1; y * y <= limit; y++) {
-            int n = (4 * x * x) + (y * y); 
-            if (n <= limit + 1 && (n % 12 == 1 || n % 12 == 5)) 
-                sieve[n] ^= true; 
-  
-            n = (3 * x * x) + (y * y); 
-            if (n <= limit + 1 && n % 12 == 7) 
-                sieve[n] ^= true; 
-  
-            n = (3 * x * x) - (y * y); 
-            if (x > y && n <= limit + 1 && n % 12 == 11) 
-                sieve[n] ^= true; 
-        } 
-    }
+	for (int p=2; p*p<=n; p++)
+	{
+		if (isprime[p] == true)
+		{
+			for (int i=p*p; i<=n; i += p)
+				isprime[i] = false;
+		}
+	}
 
-    for (int r = 2; r * r <= limit; r++) { 
-        if (sieve[r]) { 
-            for (int i = r * r; i <= limit; i += r * r) 
-                sieve[i] = false; 
-        } 
-    }
-  
-    // Print primes using sieve[] 
-    // for (int a = 2; a <= limit; a++) 
-    //     if (sieve[a]) 
-    //         cout << a << " ";
-	// cout << endl;
-
-	// memset(table, 0, sizeof table);
 	int idx = 0;
-    for (int p=2; p<=limit; p++)
-        if (sieve[p]) {
+    for (int p=2; p<=n; p++)
+        if (isprime[p]) {
 			prime[idx++] = p;
 		}
 
 	idx = 0;
-	for (int i = 2; i <= limit; i++) {
-		if (sieve[i]) {
+	for (int i = 2; i <= n; i++) {
+		if (isprime[i]) {
 			table[i] = 0;
 			idx++;
 		}else {
@@ -95,11 +70,8 @@ void mainFunction()
 {
 	int n;
 	SieveOfEratosthenes(maxw);
-	int idx = 0;
 	while(cin >> n && n != 0){
 		cout << table[n] << "\n";
-		idx++;
-		assert(idx!=1299709);
 	}
 }
 
