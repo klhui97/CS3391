@@ -68,10 +68,10 @@ void SieveOfEratosthenes(int limit)
     }
   
     // Print primes using sieve[] 
-    for (int a = 2; a <= limit; a++) 
-        if (sieve[a]) 
-            cout << a << " ";
-	cout << endl;
+    // for (int a = 2; a <= limit; a++) 
+    //     if (sieve[a]) 
+    //         cout << a << " ";
+	// cout << endl;
 
 	// memset(table, 0, sizeof table);
 	int idx = 0;
