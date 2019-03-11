@@ -28,12 +28,51 @@ using namespace std;
 #define $(x) {if (DUBUG) cout << #x << " = " << x << " " << "\n";}
 #define _(x) {if (DUBUG) cout << #x << " = " << x << " ";}
 
-#define maxn 10
+#define maxn 1000001
 #define maxw 5
 #define INF 0x3f3f3f3f
 
+int prime[maxn];
+int maxprime[maxn];
+int sumprime[maxn];
+
+void SieveOfEratosthenes(int n)
+{
+    bool isprime[n];
+	memset(isprime, true, sizeof(isprime));
+
+	for (int p=2; p*p<=n; p++)
+	{
+		if (isprime[p] == true)
+		{
+			for (int i=p*p; i<=n; i += p)
+				isprime[i] = false;
+		}
+	}
+  
+	memset(sumprime, 0, sizeof sumprime);
+    for (int a = 2; a < n; a++) {
+		if (isprime[a]) {
+			for (int j = 1; a * j < n; j++) {
+				maxprime[a * j] = a;
+				sumprime[a * j] += a; 
+			}
+		}
+	}
+}
+
 void mainFunction()
 {
+	int a, b;
+	SieveOfEratosthenes(maxn);
+	while(cin >> a >> b && a && b){
+		int aDiff = maxprime[a] - (sumprime[a] - maxprime[a]);
+		int bDiff = maxprime[b] - (sumprime[b] - maxprime[b]);
+		if (aDiff > bDiff)
+			cout << "a" << "\n";
+		else
+			cout << "b" << "\n";
+	}
 	
 }
 
