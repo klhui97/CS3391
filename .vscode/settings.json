@@ -22,6 +22,7 @@
         "functional": "cpp",
         "vector": "cpp",
         "list": "cpp",
-        "cstdlib": "cpp"
+        "cstdlib": "cpp",
+        "set": "cpp"
     },
 }

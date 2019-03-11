@@ -30,13 +30,60 @@ using namespace std;
 #define $(x) {if (DUBUG) cout << #x << " = " << x << " " << "\n";}
 #define _(x) {if (DUBUG) cout << #x << " = " << x << " ";}
 
-#define maxn 10
+#define maxn 65536
 #define maxw 5
 #define INF 0x3f3f3f3f
 
+int nonprime[64] = {};
+int nonprimeIdx = 0;
+void SieveOfEratosthenes(int n)
+{
+    bool isprime[n+1];
+    memset(isprime, true, sizeof(isprime));
+
+    for (int p=2; p*p<=n; p++)
+    {
+        if (isprime[p] == true)
+        {
+            for (int i=p*p; i<=n; i += p)
+                isprime[i] = false;
+        }
+    }
+
+    for (int p=2; p<=n; p++)
+		if (!isprime[p])
+			nonprime[nonprimeIdx++] = p;
+}
+
+ull upow(ull x, int p) {
+	if (p == 0)
+		return 1;
+	if (p == 1)
+		return x;
+	return x * upow(x, p - 1);
+}
+
 void mainFunction()
 {
-	
+	SieveOfEratosthenes(64);
+	set<ull> s;
+	ull j;
+	int idx;
+	s.insert(1);
+	for (ull i = 2; i < 65536; i++) {
+		idx = 0;
+		while(idx < nonprimeIdx && nonprime[idx] * log2(i) < 64){
+			j = upow(i, nonprime[idx]);
+			s.insert(j);
+			idx++;
+			// $(j);
+		}
+		s.insert(j);
+	}
+	for(set<ull>::iterator it = s.begin(); it != s.end(); it++) {
+		cout << *it << "\n";
+	}
+
 }
 
 void testCaseGenerator()
