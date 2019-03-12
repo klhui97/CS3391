@@ -26,64 +26,67 @@
 #include <set>
 using namespace std;
 #define ull unsigned long long
-#define DUBUG true
+#define DUBUG false
 #define $(x) {if (DUBUG) cout << #x << " = " << x << " " << "\n";}
 #define _(x) {if (DUBUG) cout << #x << " = " << x << " ";}
 
-#define maxn 65536
+#define maxn 10
 #define maxw 5
 #define INF 0x3f3f3f3f
 
-int nonprime[64] = {};
-int nonprimeIdx = 0;
-void SieveOfEratosthenes(int n)
-{
-    bool isprime[n+1];
-    memset(isprime, true, sizeof(isprime));
-
-    for (int p=2; p*p<=n; p++)
-    {
-        if (isprime[p] == true)
-        {
-            for (int i=p*p; i<=n; i += p)
-                isprime[i] = false;
-        }
-    }
-
-    for (int p=2; p<=n; p++)
-		if (!isprime[p])
-			nonprime[nonprimeIdx++] = p;
-}
-
-ull upow(ull x, int p) {
-	if (p == 0)
-		return 1;
-	if (p == 1)
-		return x;
-	return x * upow(x, p - 1);
-}
+ull row[47];
+ull seat[47];
 
 void mainFunction()
 {
-	SieveOfEratosthenes(64);
-	set<ull> s;
-	ull j;
-	int idx;
-	s.insert(1);
-	for (ull i = 2; i < 65536; i++) {
-		idx = 0;
-		while(idx < nonprimeIdx && nonprime[idx] * log2(i) < 64){
-			j = upow(i, nonprime[idx]);
-			s.insert(j);
-			idx++;
-			// $(j);
+	int t, c;
+	ull n, m;
+	int i;
+	
+	cin >> t;
+	for (int j = 1; j <= t; j++) {
+		cin >> n >> m >> c;
+		set< pair<ull,ull> > s;
+		for(i = 0; i < c; i++)
+		{
+			cin >> row[i];
 		}
-		s.insert(j);
-	}
-	for(set<ull>::iterator it = s.begin(); it != s.end(); it++) {
-		cout << *it << "\n";
-	}
+		for(i = 0; i < c; i++)
+		{
+			cin >> seat[i];
+			s.insert(make_pair(row[i], seat[i]));
+		}
+		ull avaliable = n * (m - 1);
+		ull prev = -1;
+		ull row = -1;
+		for(set< pair<ull,ull> >::iterator it = s.begin(); it != s.end(); it++) {
+			if (it->first != row) {
+				row = it->first;
+				prev = -1;
+			}
 
+			if (it->second == 1) {
+				if (m != 1) {
+					avaliable--;
+				}
+			}else if (it->second == m) {
+				$(prev);
+				if (prev != it->second - 1) {
+					avaliable--;
+				}
+			}else {
+				avaliable--;
+				if (prev != it->second - 1) {
+					avaliable--;
+				}
+			}
+			prev = it->second;
+			
+		}
+
+		cout << "Case #" << j << ": " << avaliable << "\n";
+	}
+	
 }
 
 void testCaseGenerator()

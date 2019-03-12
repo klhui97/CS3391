@@ -60,7 +60,7 @@ int main()
 		freopen("in.txt", "r", stdin);
 	}
 	ios_base::sync_with_stdio(false);
-	// cin.tie(NULL);
+	cin.tie(NULL);
 	// testCaseGenerator();
 	mainFunction();
 	return 0;
