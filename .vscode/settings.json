@@ -23,6 +23,7 @@
         "vector": "cpp",
         "list": "cpp",
         "cstdlib": "cpp",
-        "set": "cpp"
+        "set": "cpp",
+        "__tree": "cpp"
     },
 }
