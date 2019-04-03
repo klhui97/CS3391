@@ -25,91 +25,113 @@
 #include <map>
 #include <set>
 using namespace std;
+#define ll long long
 #define ull unsigned long long
-typedef pair<int, int> ii;
+typedef pair<int, int> pii;
 typedef vector<int> vi;
-typedef vector<ii> vii;
+typedef vector<pii> vpii;
 #define DUBUG true
 #define $(x) {if (DUBUG) cout << #x << " = " << x << " " << "\n";}
 #define _(x) {if (DUBUG) cout << #x << " = " << x << " ";}
 
-#define maxn 101
+#define maxn 100000
 #define maxw 5
 #define INF 0x3f3f3f3f
 
-int res[maxn][maxn], maxflow, f, s, t;
-vector<vi> adj;
-vi p;
+int cnt;
+#define INTT long long
+struct Edge {
+	int v;     // edge (u->v)
+	INTT c;  // edge cacity (w)
+	int nxt;  // the next edge connected by node u.
+};
+int edges;
+Edge edge[maxn];
+int d[maxn], visited[maxn];
+int f[maxn], h[maxn];
 
-int n;
-
-void augment(int v, int minEdge) {
-	if (v == s) {
-		f = minEdge;
-		return;
-	} else if (p[v] != -1) {
-		augment(p[v], min(minEdge, res[p[v]][v]));
-		res[p[v]][v] -= f;
-		res[v][p[v]] += f;
-	}
+void addEdge(int u, int v, INTT c) {
+	edge[edges].nxt = h[u];
+	edge[edges].v = v;
+	edge[edges].c = c;
+	h[u] = edges;
+	edges++;
 }
 
-void EdmondKarps() {
-	maxflow = 0;
-	while (1) {
-		f = 0;
-		bitset<maxn> visited;
-		visited.set(s);
-		queue<int> q;
-		q.push(s);
-		p.assign(maxn, -1);
-		while (!q.empty()) {
-			int u = q.front();
-			q.pop();
-			if (u == t)
-				break;
-			for (int i = 0; i < (int) adj[u].size(); i++) {
-				int v = adj[u][i];
-				if (res[u][v] > 0 && !visited.test(v)) {
-					visited.set(v);
-					q.push(v);
-					p[v] = u;
-				}
+void init() {
+	edges = 0;
+	memset(h, -1, sizeof(h));
+}
+
+bool bfs(int S, int T) {
+	int u, v;
+	memset(d, -1, sizeof(d));
+	queue<int> Q;
+	while (!Q.empty())
+		Q.pop();
+	Q.push(S);
+	d[S] = 0;
+	while (!Q.empty()) {
+		u = Q.front();
+		Q.pop();
+		for (int e = h[u]; e != -1; e = edge[e].nxt) {
+			v = edge[e].v;
+
+			if ((d[v] == -1) && edge[e].c > f[e]) {
+				d[v] = d[u] + 1;
+				Q.push(v);
 			}
 		}
-		augment(t, INF);
-		if (f == 0)
-			break;
-		maxflow += f;
 	}
+	return d[T] >= 0;
+}
+
+INTT dinic(int u, int T, INTT sum) {
+	if (u == T) 
+		return sum;
+	int v, tp = sum;
+	for (int e = h[u]; e != -1 && sum; e = edge[e].nxt) {
+		v = edge[e].v;
+		if (d[v] == d[u] + 1 && edge[e].c>f[e]) {
+			ll toflow = dinic(v, T, min(sum, edge[e].c - f[e]));
+			f[e] += toflow;
+			f[e ^ 1] -= toflow;
+			sum -= toflow;
+		}
+	}
+	return tp - sum;
+}
+
+INTT maxFlow(int s, int t) {
+	cnt = 0;
+	INTT ans = 0;
+	while (bfs(s, t))
+		ans += dinic(s, t, INF);
+	return ans;
 }
 
 void mainFunction()
 {
-    int c, cnt = 1;
+	int c;
+	int cnt = 1;
     int u, v, w;
+	int s, t;
+	int n;
 	while (cin >> n && n) {
-		memset(res, 0, sizeof res);
-		adj.assign(n, vi());
-
 		cin >> s >> t >> c;
-		s--;
-		t--;
+		memset(f, 0, sizeof(f));
+		memset(visited, 0, sizeof(visited));
+
+		init();
 
 		for (int i = 0; i < c; i++) {
-			cin >> u >> v >> w;
-			u--;
-			v--;
-			res[u][v] += w;
-            adj[u].push_back(v);
-			res[v][u] += w;
-			adj[v].push_back(u);
+			cin >> v >> u >> w;
+			addEdge(v, u, w);
+			addEdge(u, v, w);
 		}
 
-		EdmondKarps();
-
 		cout << "Network " << cnt++;
-        cout << "\nThe bandwidth is " << maxflow << ".\n\n";
+        cout << "\nThe bandwidth is " << maxFlow(s,t) << ".\n\n";
 	}
 }
 
