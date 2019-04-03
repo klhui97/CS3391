@@ -34,11 +34,11 @@ typedef vector<pii> vpii;
 #define $(x) {if (DUBUG) cout << #x << " = " << x << " " << "\n";}
 #define _(x) {if (DUBUG) cout << #x << " = " << x << " ";}
 
-#define maxn 10000
+#define maxn 1000000
 #define maxw 5
 #define INF 0x3f3f3f3f
 
-#define INTT long long
+#define INTT int
 struct Edge {
 	int v;     // edge (u->v)
 	INTT c;  // edge cacity (w)
@@ -55,11 +55,17 @@ void addEdge(int u, int v, INTT c) {
 	edge[edges].c = c;
 	h[u] = edges;
 	edges++;
+	edge[edges].nxt = h[v];
+	edge[edges].v = u;
+	edge[edges].c = 0;
+	h[v] = edges;
+	edges++;
 }
 
 void init() {
 	edges = 0;
 	memset(h, -1, sizeof(h));
+	memset(f, 0, sizeof(f));
 }
 
 bool bfs(int S, int T) {
@@ -110,39 +116,34 @@ INTT maxFlow(int s, int t) {
 
 void mainFunction()
 {
-	int c;
 	int cnt = 1;
-    int u, v, w;
+	int L, W, N, d, x, y;
 	int s, t;
-	int n;
-	while (cin >> n && n) {
-		cin >> s >> t >> c;
-		memset(f, 0, sizeof(f));
-
+	int corX[maxn];
+	int corY[maxn];
+	while(cin >> L >> W >> N >> d && L){
+		memset(corX, 0, sizeof corX);
+		memset(corY, 0, sizeof corY);
 		init();
+		int n = N * 2 + 2;
+		s = 0;
+		t = n - 1;
 
-		for (int i = 0; i < c; i++) {
-			cin >> v >> u >> w;
-			addEdge(v, u, w);
-			addEdge(u, v, w);
+		for (int i = 1; i <= N; i++) {
+			cin >> corX[i] >> corY[i];
+			addEdge(i, i + N, 1);
+			if (corY[i] - d <= 0)
+				addEdge(s, i, 1);
+			if (corY[i] + d >= W)
+				addEdge(i + N, t, 1);
+			for (int j = 1; j < i; j++) {
+				if ((corX[i] - corX[j]) * (corX[i] - corX[j]) + (corY[i] - corY[j]) * (corY[i] - corY[j]) <= 4 * d * d) {
+					addEdge(i + N, j, 1);
+					addEdge(j + N, i, 1);
+				}
+			}
 		}
-
-		cout << "Network " << cnt++;
-        cout << "\nThe bandwidth is " << maxFlow(s,t) << ".\n\n";
-	}
-}
-
-void testCaseGenerator()
-{
-	int d[24];
-	for (int i = 1; i < 25; i++)
-	{
-		d[i - 1] = i;
-	}
-	for (int i = 0; i < 100; i++)
-	{
-		// random_shuffle(begin(d), end(d));
-		cout << d[0] << " " << d[1] << " " << d[2] << " " << d[3] << " " << int(rand() % 24 + 1) << "\n";
+		cout << "Case " << cnt++ << ": " << maxFlow(s, t) << "\n";
 	}
 }
 
@@ -154,7 +155,6 @@ int main()
 	}
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
-	// testCaseGenerator();
 	mainFunction();
 	return 0;
 }
