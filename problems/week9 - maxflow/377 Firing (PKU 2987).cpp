@@ -27,9 +27,9 @@
 using namespace std;
 #define ll long long
 #define ull unsigned long long
-typedef pair<int, int> ii;
+typedef pair<int, int> pii;
 typedef vector<int> vi;
-typedef vector<ii> vii;
+typedef vector<pii> vpii;
 #define DUBUG true
 #define $(x) {if (DUBUG) cout << #x << " = " << x << " " << "\n";}
 #define _(x) {if (DUBUG) cout << #x << " = " << x << " ";}
@@ -37,8 +37,9 @@ typedef vector<ii> vii;
 #define maxn 60000 * 2 + 5000 * 2 + 100
 #define maxw 10
 #define INF 0x3f3f3f3f
-#define INTT long long
 
+int cnt;
+#define INTT long long
 struct Edge {
 	int v;     // edge (u->v)
 	INTT c;  // edge cacity (w)
@@ -59,15 +60,6 @@ void addEdge(int u, int v, INTT c) {
 void init() {
 	edges = 0;
 	memset(h, -1, sizeof(h));
-}
-void dfs(int u) {
-	visited[u] = 1;
-	int v;
-	for (int e = h[u]; e != -1; e = edge[e].nxt) {
-		v = edge[e].v;
-		if (edge[e].c - f[e]>0 && !visited[v])
-			dfs(v);
-	}
 }
 
 bool bfs(int S, int T) {
@@ -110,18 +102,32 @@ INTT dinic(int u, int T, INTT sum) {
 }
 
 INTT maxFlow(int s, int t) {
+	cnt = 0;
 	INTT ans = 0;
 	while (bfs(s, t))
 		ans += dinic(s, t, INF);
 	return ans;
 }
 
+// dfs 
+void dfs(int u) {
+	cnt++;
+	visited[u] = 1;
+	int v;
+	for (int e = h[u]; e != -1; e = edge[e].nxt) {
+		v = edge[e].v;
+		if (edge[e].c - f[e]>0 && !visited[v]) {
+			dfs(v);
+		}
+	}
+}
+
 void mainFunction()
 {
 	int sum, ans;
 	int n, m;
-	while (cin >> n >> m && cin) {
-		int cnt = 0;
+	while (cin >> n >> m && cin) {                                                            
+		
 		int i, j, a, b, c;
 		sum = 0;
 		ans = 0;
@@ -150,11 +156,7 @@ void mainFunction()
 		INTT flow = maxFlow(start, end);
 		ans = sum - flow;
 		dfs(start);
-		for (int i = 0; i < n; i++)
-			if (visited[i] == 1) {
-				cnt++;
-			}
-		cout << cnt << " " << ans << "\n";
+		cout << cnt - 1 << " " << ans << "\n";
 	}
 }
 

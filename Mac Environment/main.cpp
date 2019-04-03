@@ -25,7 +25,11 @@
 #include <map>
 #include <set>
 using namespace std;
+#define ll long long
 #define ull unsigned long long
+typedef pair<int, int> pii;
+typedef vector<int> vi;
+typedef vector<pii> vpii;
 #define DUBUG true
 #define $(x) {if (DUBUG) cout << #x << " = " << x << " " << "\n";}
 #define _(x) {if (DUBUG) cout << #x << " = " << x << " ";}
