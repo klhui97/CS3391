@@ -1,4 +1,3 @@
-/*** System Library ***/
 #include <iostream>
 #include <cstdio>
 #include <cmath>
@@ -23,140 +22,142 @@
 #include <deque> // double ended queue
 #include <list>  // priority queue
 #include <map>
+#include <set>
 using namespace std;
-#define maxn 101
+#define ll long long
+#define ull unsigned long long
+typedef pair<int, int> pii;
+typedef vector<int> vi;
+typedef vector<pii> vpii;
+#define DUBUG true
+#define $(x) {if (DUBUG) cout << #x << " = " << x << " " << "\n";}
+#define _(x) {if (DUBUG) cout << #x << " = " << x << " ";}
+
+#define maxn 105
 #define maxw 5
 #define INF 0x3f3f3f3f
-	int level[maxn];
-typedef pair<int, int> iPair; 
-class Graph 
-{ 
+int level[maxn];
+int limit;
+typedef pair<int, int> iPair;
+struct node {
+    int id;
+    int distance;
+
+    node(int id, int distance) :id(id), distance(distance) {};
+
+    bool operator < (const node n2) const {
+        return distance > n2.distance;
+    }
+};
+class Graph
+{
     int V;
-    list< pair<int, int> > *adj; 
-  
-public: 
+    list< pair<int, int> > *adj;
+
+public:
     Graph(int V);
     void addEdge(int u, int v, int w);
-    int shortestPath(int s, int cost); 
-}; 
+    int shortestPath(int s, int low, int up);
+};
 
-Graph::Graph(int V) 
-{ 
-    this->V = V; 
-    adj = new list<iPair> [V]; 
-} 
-  
-void Graph::addEdge(int from, int to, int w) 
-{ 
-    adj[from].push_back(make_pair(to, w));
-    // printf("%d --> %d weight: %d Level: %d\n", from, to, w, level[from]);
-    // adj[to].push_back(make_pair(from, w)); 
-} 
-
-int Graph::shortestPath(int src, int cost)
+Graph::Graph(int V)
 {
-    priority_queue< iPair, vector <iPair> , greater<iPair> > pq;
-    vector<int> dist(V, INF);
-    pq.push(make_pair(cost, src));
-    dist[src] = cost;
+    this->V = V;
+    adj = new list<iPair> [V];
+}
+
+void Graph::addEdge(int u, int v, int w)
+{
+    adj[u].push_back(make_pair(v, w));
+	// printf("%d --> %d weight: %d Level: %d\n", u, v, w, level[u]);
+    // adj[v].push_back(make_pair(u, w));
+}
+int Graph::shortestPath(int src, int low, int up)
+{
+	// _(low);
+	// $(up);
+    priority_queue<node> pq;
+    // Create a vector for distances and initialize all
+    // distances as infinite (INF)
+    int dist[V + 1];
+    memset(dist, INF, sizeof dist);
+	bool found = false;
+    pq.push(node(src, 0));
+    dist[src] = 0;
 
     while (!pq.empty())
     {
-        int u = pq.top().second;
+        // The first vertex in pair is the minimum distance
+        // vertex, extract it from priority queue.
+        // vertex label is stored in second of pair (it
+        // has to be done this way to keep the vertices
+        // sorted distance (distance must be first item
+        // in pair)
+        int u = pq.top().id;
         pq.pop();
 
+        // 'i' is used to get all adjacent vertices of a vertex
         list< pair<int, int> >::iterator i;
         for (i = adj[u].begin(); i != adj[u].end(); ++i)
         {
+            // Get vertex label and weight of current adjacent
+            // of u.
             int v = (*i).first;
             int weight = (*i).second;
+
+            //  If there is shorted path to v through u.
+			if (level[u] >= low && level[u] <= up && level[v] >= low && level[v] <= up) {
+				if (dist[v] > dist[u] + weight)
+				{
+					if (v == 1) {
+						found = true;
+					}
+					// Updating distance of v
+					dist[v] = dist[u] + weight;
+					pq.push(node(v, dist[v]));
+				}
+			}
             
-            if (dist[v] > dist[u] + weight)
-            {
-                dist[v] = dist[u] + weight;
-                pq.push(make_pair(dist[v], v));
-            }
         }
     }
-
-    return dist[1];
+	if (found)
+    	return dist[1];
+	else
+		return INF;
 }
 
 void mainFunction()
 {
-    int M, N;
+	int N;
     int i, j, k;
     int P, L, X;
     int T, V;
-    int cost[maxn];
-    
-    int from[maxn*maxn];
-    int to[maxn*maxn];
-    int w[maxn*maxn];
+	int ans;
+	int cost[maxn];
 	
-    int e;
     
-	while(scanf("%d %d\n", &M, &N) == 2) {
-        // printf("There are %d monters with limit %d\n", N, M);
-        
-        e = 0;
+	while(scanf("%d %d\n", &limit, &N) == 2) {
+        Graph g(N + 1);
         for (i = 1; i <= N; i++) {
             scanf("%d %d %d\n", &P, &L, &X);
-            // printf("Monster%d. Level: %d. Cost: %d\n", i, L, P);
+			if (i == 1)
+				ans = P;
             cost[i] = P;
             level[i] = L;
             for (j = 0; j < X; j++) {
                 scanf("%d %d\n", &T, &V);
-                // printf("T: %d V: %d\n", T, V);
-                from[e] = T;
-                to[e] = i;
-                w[e] = V;
-                e++;
+				g.addEdge(T, i, V);
             }
         }
-
-        int f, t, now;
-        int minSp = cost[1];
-		int upperLimit = level[1] + M;
-		int lowerLimit = level[1] - M;
-
-        for (k = 2; k <= N; k++) {
-            Graph g(N + 1);
-			// cout << "Start New graph -------- From: " << k << " Cost: " << cost[k] << " Upper Limit: " << upperLimit << " Lower Limit: " << lowerLimit << endl;
-			int src_level = level[k];
-
-            for (i = 0; i < e; i++) {
-                f = level[from[i]];
-                t = level[to[i]];
-                
-				if (f >= level[1] && t >= level[1] && f <= upperLimit && t <= upperLimit)
-					g.addEdge(from[i], to[i], w[i]);
-                
-            }
-			int new_dis = g.shortestPath(k, cost[k]);
-			// cout << "End New graph --------" << " Cost: " << cost[k] << " New total cost: " << new_dis << endl;
-            minSp = min(minSp, new_dis);
-        }
-
-		for (k = 2; k <= N; k++) {
-            Graph g(N + 1);
-			// cout << "Start New graph -------- From: " << k << " Cost: " << cost[k] << "Upper Limit: " << upperLimit << " Lower Limit: " << lowerLimit << endl;
-
-            for (i = 0; i < e; i++) {
-                f = level[from[i]];
-                t = level[to[i]];
-                
-				if (f >= lowerLimit && t >= lowerLimit && f <= level[1] && t <= level[1])
-					g.addEdge(from[i], to[i], w[i]);
-                
-            }
-			int new_dis = g.shortestPath(k, cost[k]);
-			// cout << "End New graph --------" << " Cost: " << cost[k] << " New total cost: " << new_dis << endl;
-            minSp = min(minSp, new_dis);
-        }
-        printf("%d\n", minSp);
-    }
-    
+		for (int i = 2; i <= N; i++) {
+			int upper = level[1] + limit;
+			int lower = level[1] - limit;
+			for (int low = lower; low + limit <= upper; low++) {
+				ans = min(ans, cost[i] + g.shortestPath(i, low, low + limit));
+			}
+		}
+		cout << ans << "\n";
+	}
 }
 
 void testCaseGenerator()
@@ -169,7 +170,7 @@ void testCaseGenerator()
 	for (int i = 0; i < 100; i++)
 	{
 		// random_shuffle(begin(d), end(d));
-		cout << d[0] << " " << d[1] << " " << d[2] << " " << d[3] << " " << int(rand() % 24 + 1) << endl;
+		cout << d[0] << " " << d[1] << " " << d[2] << " " << d[3] << " " << int(rand() % 24 + 1) << "\n";
 	}
 }
 
@@ -179,7 +180,7 @@ int main()
 	{
 		freopen("in.txt", "r", stdin);
 	}
-	// ios_base::sync_with_stdio(false);
+	ios_base::sync_with_stdio(false);
 	// cin.tie(NULL);
 	// testCaseGenerator();
 	mainFunction();
