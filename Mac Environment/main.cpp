@@ -34,27 +34,13 @@ typedef vector<pii> vpii;
 #define $(x) {if (DUBUG) cout << #x << " = " << x << " " << "\n";}
 #define _(x) {if (DUBUG) cout << #x << " = " << x << " ";}
 
-#define maxn 10
-#define maxw 5
+#define maxn 1000
+#define maxw 1000
 #define INF 0x3f3f3f3f
 
 void mainFunction()
 {
 	
-}
-
-void testCaseGenerator()
-{
-	int d[24];
-	for (int i = 1; i < 25; i++)
-	{
-		d[i - 1] = i;
-	}
-	for (int i = 0; i < 100; i++)
-	{
-		// random_shuffle(begin(d), end(d));
-		cout << d[0] << " " << d[1] << " " << d[2] << " " << d[3] << " " << int(rand() % 24 + 1) << "\n";
-	}
 }
 
 int main()
@@ -65,7 +51,6 @@ int main()
 	}
 	ios_base::sync_with_stdio(false);
 	// cin.tie(NULL);
-	// testCaseGenerator();
 	mainFunction();
 	return 0;
 }
