@@ -90,10 +90,8 @@ void Graph::addEdge(int u, int v, int w)
 void Graph::shortestPath(int src) 
 {
 	int dist[V + 1][13];
-	bool visited[V + 1][13];
 	memset(dist, INF, sizeof dist);
 	priority_queue<node> pq;
-	memset(visited, false, sizeof visited);
 	dist[src][oring] = 0;
 
 	if (!(s == e && oring == tring))
@@ -104,9 +102,6 @@ void Graph::shortestPath(int src)
 		int status = pq.top().status;
 		int d = pq.top().distance;
         pq.pop();
-		
-		if(visited[u][status]) continue;
-		visited[u][status] = true;
 
 		list< pair<int, int> >::iterator i; 
 		for (i = adj[u].begin(); i != adj[u].end(); ++i) {
@@ -114,10 +109,11 @@ void Graph::shortestPath(int src)
             int weight = (*i).second;
 
 			int newRPos = solve(action[v], status, n[v]);
-			dist[v][newRPos] = min(dist[v][newRPos], dist[u][status] + weight);
-
-			pq.push(node(v, d + weight, newRPos));
-				
+			if (dist[v][newRPos] > dist[u][status] + weight)
+			{
+				dist[v][newRPos] = dist[u][status] + weight;
+				pq.push(node(v, dist[v][newRPos], newRPos));
+			}
 		}
 	}
 	if(dist[e][tring]>=INF)
