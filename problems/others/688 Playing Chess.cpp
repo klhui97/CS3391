@@ -48,27 +48,30 @@ struct node {
     node(int x, int y, int distance) :x(x), y(y), distance(distance) {};
 };
 
-int dfs()
+int bfs()
 {
+	bool visited[8][8];
+    memset(visited, false, sizeof visited);
 	int steps[8][8];
 	int movex[8] = {-2, -1, 1, 2, -2, -1, 1, 2};
 	int movey[8] = {1, 2, 2, 1, -1, -2, -2, -1};
 
     memset(steps, INF, sizeof steps);
 
-    stack<node> stack;
-    stack.push(node(xs, ys, 0));
+    list<node> queue;
+    queue.push_back(node(xs, ys, 0));
 	steps[xs][ys] = 0;
+	visited[xs][ys] = true;
 
 	int ans = INF;
     list<int>::iterator i;
 
-    while (!stack.empty())
+    while (!queue.empty())
     {
-        int x = stack.top().x;
-		int y = stack.top().y;
-        int d = stack.top().distance;
-        stack.pop();
+        int x = queue.front().x;
+		int y = queue.front().y;
+        int d = queue.front().distance;
+        queue.pop_front();
 		if (x == xe && y == ye) {
 			ans = min(ans, d);
 		}
@@ -77,9 +80,12 @@ int dfs()
 			int newx = x + movex[k];
 			int newy = y + movey[k];
 			if (newx >= 0 && newx < 8 && newy >= 0 && newy < 8 && graph[newx][newy] != '*') {
-				if (d + 1 < steps[newx][newy]) {
-					steps[newx][newy] = d + 1;
-					stack.push(node(newx, newy, d + 1));
+				if (newx == xe && newy == ye) {
+					return d + 1;
+				}
+				 if (!visited[newx][newy]) {
+					visited[newx][newy] = true;
+					queue.push_back(node(newx, newy, d + 1));
 				}
 			}
 		}
@@ -106,7 +112,7 @@ void mainFunction()
 			}
 		}
 
-		int dis = dfs();
+		int dis = bfs();
 		if (dis != INF)
 			printf("Case %d: %d\n", c, dis);
 		else
