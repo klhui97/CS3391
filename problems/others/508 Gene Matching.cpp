@@ -34,7 +34,7 @@ typedef vector<pii> vpii;
 #define $(x) {if (DUBUG) cout << #x << " = " << x << " " << "\n";}
 #define _(x) {if (DUBUG) cout << #x << " = " << x << " ";}
 
-#define maxn 1000
+#define maxn 1000010
 #define maxw 1000
 #define INF 0x3f3f3f3f
 
@@ -95,7 +95,7 @@ int *buildSuffixArray(char *txt, int n)
         }
         sort(suffixes, suffixes+n, cmp);
     }
-    int *suffixArr = new int[n];
+    int *suffixArr = new int[n]; 
     for (int i = 0; i < n; i++)
         suffixArr[i] = suffixes[i].index;
     return  suffixArr;
@@ -105,17 +105,17 @@ int *buildSuffixArray(char *txt, int n)
 // mode 2: return the largest index of suffArr of matched prefix
 // other mode: return if pattern is found
 // return -1 if not found
-int search(char *pat, char *txt, int *suffArr, int n, int mode)
-{
+int search(char *pat, char *txt, int *suffArr, int n, int mode) 
+{ 
     int m = strlen(pat);
     int ans = -1;
     int l = 0, r = n-1;
-    while (l <= r)
+    while (l <= r) 
     {
-        int mid = l + (r - l)/2;
+        int mid = l + (r - l)/2; 
         int res = strncmp(pat, txt+suffArr[mid], m);
         if (res == 0) {
-            // cout << "Pattern found at index " << suffArr[mid] << "\n";
+            // cout << "Pattern found at index " << suffArr[mid] << "\n"; 
             if (mode == 1) {
                 ans = mid;
                 r = mid - 1;
@@ -128,72 +128,72 @@ int search(char *pat, char *txt, int *suffArr, int n, int mode)
         }else if (res < 0) {
             r = mid - 1;
         }else {
-            l = mid + 1;
+            l = mid + 1; 
         }
     }
     return ans;
 }
 
-vector<int> kasai(char *txt, int *suffixArr, int n) 
+int *kasai(char *txt, int *suffixArr, int n)
 {
-    vector<int> lcp(n, 0);
+    int *lcp = new int[n]; 
     vector<int> invSuff(n, 0);
-    for (int i=0; i < n; i++) 
-        invSuff[suffixArr[i]] = i; 
+
+    for (int i=0; i < n; i++)
+        invSuff[suffixArr[i]] = i;
 
     int k = 0;
-    for (int i=0; i<n; i++) 
+
+    for (int i=0; i<n; i++)
     {
-        if (invSuff[i] == n-1) 
-        { 
-            k = 0; 
-            continue; 
+        if (invSuff[i] == n-1)
+        {
+            k = 0;
+            continue;
         }
         int j = suffixArr[invSuff[i]+1];
-        while (i+k<n && j+k<n && txt[i+k]==txt[j+k]) 
-            k++; 
-  
+
+        while (i+k<n && j+k<n && txt[i+k]==txt[j+k])
+            k++;
+
         lcp[invSuff[i]] = k;
-        if (k>0) 
-            k--; 
+        if (k>0)
+            k--;
     }
-    return lcp; 
-} 
+    return lcp;
+}
+
+void printArr(vector<int>arr, int n)
+{
+    for (int i = 0; i < n; i++)
+        cout << arr[i] << " ";
+    cout << endl;
+}
 
 void mainFunction()
 {
-    char str[1005];
-    char pat[1005];
-	int t;
-	int len;
-	cin >> t;
-	while(t--){
-		cin >> str;
-		int n = strlen(str);
+    int t, nt;
+    cin >> t;
+	char str[maxn];
+    char pat[maxn];
+    for (int c = 1; c <= t; c++) {
+        cin >> str;
+        cin >> nt;
+        cout << "Case #" << c << "\n";
+        int n = strlen(str); 
         int *suffixArr = buildSuffixArray(str, n);
-        vector<int> lcp = kasai(str, suffixArr, n);
-		int maxI = -1;
-		int cnt = 0;
-		for (int i = 0; i < n; i++) {
-            if (maxI == -1) {
-                if (lcp[i] > 0)
-                    maxI = i;
+        
+        while(nt--){
+            cin >> pat;
+            int low = search(pat, str, suffixArr, n, 1);
+            if (low != -1) {
+                int high = search(pat, str, suffixArr, n, 2);
+                cout << high - low + 1 << "\n";
             }else {
-                if (lcp[i] > lcp[maxI]) {
-                    maxI = i;
-                }
+                cout << "0\n";
             }
         }
-        if (maxI != -1) {
-            strncpy(pat, str + suffixArr[maxI], lcp[maxI]);
-            pat[lcp[maxI]] = '\0';
-            int low = search(pat, str, suffixArr, n, 1);
-            int high = search(pat, str, suffixArr, n, 2);
-            cout << pat << " " << high - low + 1 << "\n";
-        }else {
-            cout << "No repetitions found!\n";
-        }
-	}
+    }
 }
 
 int main()
@@ -203,7 +203,7 @@ int main()
 		freopen("in.txt", "r", stdin);
 	}
 	ios_base::sync_with_stdio(false);
-	// cin.tie(NULL);
+	cin.tie(NULL);
 	mainFunction();
 	return 0;
 }
