@@ -33,28 +33,38 @@ using namespace std;
 #define maxn 501
 #define maxw 5
 #define INF 0x3f3f3f3f
-
 typedef  pair<int, int> iPair;
 int V, E;
+
+struct edge {
+    int v, u, w;
+
+    edge(int v, int u, int w) :v(v), u(u), w(w) {};
+
+    bool operator < (const edge n2) const {
+        return w > n2.w;
+    }
+};
+
+priority_queue<edge> pq;
+
+void addEdge(int u, int v, int w)
+{
+    pq.push(edge(u, v, w));
+}
 
 struct DisjointSets
 {
     int *parent, *rnk;
     int n;
 
-    // Constructor.
     DisjointSets(int n)
     {
-        // Allocate memory
         this->n = n;
         parent = new int[n+1];
         rnk = new int[n+1];
-        
-        for (int i = 0; i <= n; i++)
-        {
-            rnk[i] = 0;
-            parent[i] = i;
-        }
+
+        reset();
     }
 
     void reset() {
