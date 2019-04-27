@@ -1,3 +1,5 @@
+// #include <bits/stdc++.h> // all
+
 /*** System Library ***/
 #include <iostream>
 #include <cstdio>
