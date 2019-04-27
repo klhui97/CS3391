@@ -53,7 +53,7 @@ void mainFunction()
 			if (paired[i])
 				continue;
 			for (int j = 0; j < t; j++) {
-				if (i == j)
+				if (i == j || paired[j])
 					continue;
 				string s1 = a[i];
 				string s2 = a[j];
@@ -87,8 +87,10 @@ void mainFunction()
 						break;
 					}
 				}
-				if (blen == 0) {
+				if (blen < 2) {
+					assert(blen == 0);
 					paired[i] = paired[j] = true;
+					break;
 				}
 					
 			}
@@ -110,7 +112,7 @@ int main()
 		freopen("in.txt", "r", stdin);
 	}
 	ios_base::sync_with_stdio(false);
-	// cin.tie(NULL);
+	cin.tie(NULL);
 	mainFunction();
 	return 0;
 }
