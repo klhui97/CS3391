@@ -1,5 +1,6 @@
 ## Mac Files
 
+.vscode/*
 main.o
 main
 out.txt
