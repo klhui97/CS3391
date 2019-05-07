@@ -1,4 +1,4 @@
 # CityU CS3391
 
-CityU oj solution
-UVa solution
+| CityU oj solution
+| UVa solution
